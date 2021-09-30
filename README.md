@@ -1,1 +1,1 @@
-# monday_shareable_dashboard_backend
+Use command `npm start` to run the app in development.
