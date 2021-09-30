@@ -37,7 +37,7 @@ async function login(page, username, password) {
   await page.click(passwordSelector);
   await page.keyboard.type(password);
   await page.click(submitSelector);
-  await page.waitForNavigation();
+  await page.waitForNavigation({ timeout:5000 });
 }
 
 async function getDashboard(page) {
@@ -48,28 +48,38 @@ async function getDashboard(page) {
   await page.waitForTimeout(2000);
   const html = await page.content();
 
-  const tmpobj = tmp.fileSync({ keep: true, prefix: 'monday-', postfix: '.html' });
+  const tmpobj = tmp.fileSync({
+    keep: true,
+    prefix: "monday-",
+    postfix: ".html",
+  });
   fs.writeFileSync(tmpobj.name, html);
 
   return tmpobj.name;
 }
 
 const getDashboardController = async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const dashboardUrl = req.body.dashboardUrl;
-
   const { browser, page } = await startBrowser();
-  await page.goto(
-    "https://huddle3.monday.com/auth/login_monday/email_password"
-  );
-  await login(page, username, password);
-  await page.goto(dashboardUrl);
-  const filename = await getDashboard(page);
 
-  await closeBrowser(browser);
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    const dashboardUrl = req.body.dashboardUrl;
 
-  res.send({ message: "success", filename });
+    await page.goto(
+      "https://huddle3.monday.com/auth/login_monday/email_password"
+    );
+    await login(page, username, password);
+    await page.goto(dashboardUrl);
+    const filename = await getDashboard(page);
+
+    await closeBrowser(browser);
+
+    res.send({ url: `${HOST}:${process.env.PORT}/share?filename=${filename}` });
+  } catch (e) {
+    await closeBrowser(browser);
+    res.send({ message: e.message });
+  }
 };
 
 export { getDashboardController };
