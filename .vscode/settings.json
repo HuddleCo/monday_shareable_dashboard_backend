@@ -1,0 +1,5 @@
+{
+  "eslint.lintTask.enable": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "onFocusChange"
+}
