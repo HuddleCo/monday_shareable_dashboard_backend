@@ -14,11 +14,7 @@ const tvModeSelector =
 
 async function startBrowser() {
   const browser = await puppeteer.launch({
-    headless: false,
-    args: [
-      "--start-maximized", // you can also use '--start-fullscreen'
-    ],
-    defaultViewport: null,
+    headless: process.env.HEADLESS == 'true',
   });
   const page = await browser.newPage();
 
