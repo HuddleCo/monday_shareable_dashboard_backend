@@ -9,7 +9,7 @@
     "test": "jest",
     "start": "nodemon src/index.js"
   },
-  "author": "Harsh Khare",
+  "author": "Harsh Khare, David Milanese",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
