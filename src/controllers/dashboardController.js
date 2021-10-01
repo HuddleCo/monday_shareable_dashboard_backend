@@ -1,9 +1,7 @@
 import puppeteer from "puppeteer";
-import dotenv from "dotenv";
+
 import fs from "fs";
 import tmp from "tmp";
-
-dotenv.config();
 
 const usernameSelector = "#user_email";
 const passwordSelector = "#user_password";
