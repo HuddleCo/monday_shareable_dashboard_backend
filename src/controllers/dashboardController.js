@@ -71,7 +71,10 @@ const getDashboardController = async (req, res) => {
 
     await closeBrowser(browser);
 
-    res.send({ url: `${HOST}:${process.env.PORT}/share?filename=${filename}` });
+    res.send({
+      url: `${HOST}:${process.env.PORT}/share?filename=${filename}`,
+      path: `/share?filename=${filename}`
+    });
   } catch (e) {
     res.status(500).send({ message: e.message });
   }
