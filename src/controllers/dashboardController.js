@@ -15,6 +15,10 @@ const tvModeSelector =
 async function startBrowser() {
   const browser = await puppeteer.launch({
     headless: process.env.HEADLESS == 'true',
+    defaultViewport: {
+      width: 1920,
+      height: 1080
+    },
   });
   const page = await browser.newPage();
 
