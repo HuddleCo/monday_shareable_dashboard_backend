@@ -57,16 +57,14 @@ async function getDashboard(page) {
 }
 
 const getDashboardController = async (req, res) => {
-  const { browser, page } = await startBrowser();
-
   try {
     const username = req.body.username;
     const password = req.body.password;
     const dashboardUrl = req.body.dashboardUrl;
 
-    await page.goto(
-      "https://huddle3.monday.com/auth/login_monday/email_password"
-    );
+    const { browser, page } = await startBrowser();
+
+    await page.goto("https://huddle3.monday.com/auth/login_monday/email_password");
     await login(page, username, password);
     await page.goto(dashboardUrl);
     const filename = await getDashboard(page);
@@ -75,8 +73,7 @@ const getDashboardController = async (req, res) => {
 
     res.send({ url: `${HOST}:${process.env.PORT}/share?filename=${filename}` });
   } catch (e) {
-    await closeBrowser(browser);
-    res.send({ message: e.message });
+    res.status(500).send({ message: e.message });
   }
 };
 
