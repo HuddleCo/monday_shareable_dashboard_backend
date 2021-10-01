@@ -13,10 +13,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
-
+app.get("/health", (_, res) => res.send({ health: "OK" }));
 app.get("/share", shareController);
 app.post("/getDashboard", getDashboardController);
-
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is listening at port ${process.env.PORT}`);
