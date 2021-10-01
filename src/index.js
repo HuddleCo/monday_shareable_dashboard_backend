@@ -1,18 +1,19 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+
 import { getDashboardController } from "./controllers/dashboardController.js";
 import { shareController } from "./controllers/shareController.js";
-import dotenv from "dotenv";
-import fs from "fs";
 
 dotenv.config();
+
 const app = express();
+
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
+// DEPRECATED: Remove this in the next major release
+app.get("/", (req, res) => res.send("Server is running"));
 app.get("/health", (_, res) => res.send({ health: "OK" }));
 app.get("/share", shareController);
 app.post("/getDashboard", getDashboardController);
