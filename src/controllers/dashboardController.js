@@ -35,7 +35,7 @@ async function login(page, username, password) {
   await page.click(passwordSelector);
   await page.keyboard.type(password);
   await page.click(submitSelector);
-  await page.waitForNavigation({ timeout:5000 });
+  await page.waitForNavigation();
 }
 
 async function getDashboard(page) {
