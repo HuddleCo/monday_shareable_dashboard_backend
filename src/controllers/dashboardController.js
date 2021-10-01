@@ -72,6 +72,7 @@ const getDashboardController = async (req, res) => {
     await closeBrowser(browser);
 
     res.send({
+      // DEPRECATED: Remove url property in the next major release
       url: `${process.env.HOST}:${process.env.PORT}/share?filename=${filename}`,
       path: `/share?filename=${filename}`
     });
