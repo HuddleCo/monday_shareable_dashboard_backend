@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 
 import { getDashboardController } from "./controllers/dashboardController.js";
 import { shareController } from "./controllers/shareController.js";
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 8080
 
 const app = express();
 
+app.use(morgan('combined'));
 app.use(cors({ origin: true }));
 app.use(express.json());
 
