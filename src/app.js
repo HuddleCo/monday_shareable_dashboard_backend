@@ -6,6 +6,7 @@ import { getDashboardController } from "./controllers/dashboardController.js";
 import { shareController } from "./controllers/shareController.js";
 
 dotenv.config();
+const PORT = process.env.PORT || 8080
 
 const app = express();
 
@@ -18,6 +19,6 @@ app.get("/health", (_, res) => res.send({ health: "OK" }));
 app.get("/share", shareController);
 app.post("/getDashboard", getDashboardController);
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`Server is listening at port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is listening at port ${PORT}`);
 });
