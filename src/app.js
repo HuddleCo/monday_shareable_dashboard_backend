@@ -3,8 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 
-import { getDashboardController } from './controllers/dashboardController.js';
-import { shareController } from './controllers/shareController.js';
+import { getDashboardController } from './controllers/dashboardController';
+import { shareController } from './controllers/shareController';
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
