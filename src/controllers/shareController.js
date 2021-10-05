@@ -1,13 +1,14 @@
-import fs from "fs";
+import FileNotFoundError from './shareController/fileNotFoundError';
+import readFile from './shareController/readFile';
 
-const FILE_OPTIONS = {
-  encoding: "utf8",
-  flag: "r",
-};
-
-const shareController = (req, res) =>
-  fs.promises.readFile(req.query?.filename, FILE_OPTIONS)
-    .then((html) => res.send(html))
-    .catch((error) => res.status(404).send(`<p>File not found ${error.message}</p>`))
+const shareController = (req, res) => readFile(req.query.filename)
+  .then((html) => res.send(html))
+  .catch((error) => {
+    if (error instanceof FileNotFoundError) {
+      res.status(404).send('File not found');
+    } else {
+      res.status(500).send(`Something unexpected happened. ${error.message}`);
+    }
+  });
 
 export { shareController };
