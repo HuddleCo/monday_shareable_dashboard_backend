@@ -1,23 +1,19 @@
-import puppeteer from "puppeteer";
+import puppeteer from 'puppeteer';
+import fs from 'fs';
+import tmp from 'tmp';
 
-import fs from "fs";
-import tmp from "tmp";
-
-const usernameSelector = "#user_email";
-const passwordSelector = "#user_password";
-const submitSelector =
-  "#login-monday-container > div > div.router-wrapper > div > div.email-page > div > div.next-button-wrapper > div > button";
-const dotSelector =
-  "#first-level-content > div > div > div.overview-header.board-header > div.overview-header-content-wrapper > div > div.overview-header-right > div > div > div.overview-menu > div > span > button";
-const tvModeSelector =
-  "#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)";
+const usernameSelector = '#user_email';
+const passwordSelector = '#user_password';
+const submitSelector = '#login-monday-container > div > div.router-wrapper > div > div.email-page > div > div.next-button-wrapper > div > button';
+const dotSelector = '#first-level-content > div > div > div.overview-header.board-header > div.overview-header-content-wrapper > div > div.overview-header-right > div > div > div.overview-menu > div > span > button';
+const tvModeSelector = '#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)';
 
 async function startBrowser() {
   const browser = await puppeteer.launch({
-    headless: process.env.HEADLESS == 'true',
+    headless: process.env.HEADLESS === 'true',
     defaultViewport: {
       width: 1920,
-      height: 1080
+      height: 1080,
     },
   });
   const page = await browser.newPage();
@@ -48,8 +44,8 @@ async function getDashboard(page) {
 
   const tmpobj = tmp.fileSync({
     keep: true,
-    prefix: "monday-",
-    postfix: ".html",
+    prefix: 'monday-',
+    postfix: '.html',
   });
   fs.writeFileSync(tmpobj.name, html);
 
@@ -58,13 +54,11 @@ async function getDashboard(page) {
 
 const getDashboardController = async (req, res) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const dashboardUrl = req.body.dashboardUrl;
+    const { username, password, dashboardUrl } = req.body;
 
     const { browser, page } = await startBrowser();
 
-    await page.goto("https://huddle3.monday.com/auth/login_monday/email_password");
+    await page.goto('https://huddle3.monday.com/auth/login_monday/email_password');
     await login(page, username, password);
     await page.goto(dashboardUrl);
     const filename = await getDashboard(page);
@@ -74,7 +68,7 @@ const getDashboardController = async (req, res) => {
     res.send({
       // DEPRECATED: Remove url property in the next major release
       url: `${process.env.HOST}:${process.env.PORT}/share?filename=${filename}`,
-      path: `/share?filename=${filename}`
+      path: `/share?filename=${filename}`,
     });
   } catch (e) {
     res.status(500).send({ message: e.message });
