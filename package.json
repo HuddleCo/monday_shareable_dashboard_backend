@@ -7,7 +7,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "lint": "eslint 'src/**/*.js' --config .eslintrc.json"
   },
   "author": "Harsh Khare, David Milanese",
   "license": "MIT",
@@ -20,6 +21,9 @@
     "tmp": "^0.2.1"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
     "jest": "^27.2.4",
     "nodemon": "^2.0.13"
   }
