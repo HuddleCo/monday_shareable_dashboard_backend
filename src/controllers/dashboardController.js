@@ -75,4 +75,4 @@ const getDashboardController = async (req, res) => {
   }
 };
 
-export { getDashboardController };
+export default getDashboardController;

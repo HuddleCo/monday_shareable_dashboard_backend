@@ -11,4 +11,4 @@ const shareController = (req, res) => readFile(req.query.filename)
     }
   });
 
-export { shareController };
+export default shareController;
