@@ -40,4 +40,4 @@ HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
 
 ENV HEADLESS=true
 
-CMD ["node", "src/app.js"]
+CMD ["node", "--experimental-specifier-resolution=node", "src/app.js"]
