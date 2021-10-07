@@ -9,7 +9,7 @@ const MENU_SELECTOR = '#first-level-content > div > div > div.overview-header.bo
 const TV_MODE_SELECTOR = '#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)';
 const CLICK_TIMEOUT = 2000;
 
-async function startBrowser() {
+const startBrowser = async () => {
   const browser = await puppeteer.launch({
     headless: process.env.HEADLESS === 'true',
     defaultViewport: {
@@ -20,22 +20,20 @@ async function startBrowser() {
   const page = await browser.newPage();
 
   return { browser, page };
-}
+};
 
-async function closeBrowser(browser) {
-  return browser.close();
-}
+const closeBrowser = (browser) => browser.close();
 
-async function login(page, username, password) {
+const login = async (page, username, password) => {
   await page.click(USERNAME_SELECTOR);
   await page.keyboard.type(username);
   await page.click(PASSWORD_SELECTOR);
   await page.keyboard.type(password);
   await page.click(SUBMIT_SELECTOR);
   await page.waitForNavigation();
-}
+};
 
-async function getDashboard(page) {
+const getDashboard = async (page) => {
   await page.waitForSelector(MENU_SELECTOR);
   await page.click(MENU_SELECTOR);
   await page.waitForTimeout(CLICK_TIMEOUT);
@@ -51,7 +49,7 @@ async function getDashboard(page) {
   fs.writeFileSync(tmpobj.name, html);
 
   return tmpobj.name;
-}
+};
 
 const getDashboardController = async (req, res) => {
   try {
