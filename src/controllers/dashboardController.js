@@ -7,6 +7,7 @@ const PASSWORD_SELECTOR = '#user_password';
 const SUBMIT_SELECTOR = '#login-monday-container > div > div.router-wrapper > div > div.email-page > div > div.next-button-wrapper > div > button';
 const MENU_SELECTOR = '#first-level-content > div > div > div.overview-header.board-header > div.overview-header-content-wrapper > div > div.overview-header-right > div > div > div.overview-menu > div > span > button';
 const TV_MODE_SELECTOR = '#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)';
+const LOGIN_URL = 'https://huddle3.monday.com/auth/login_monday/email_password';
 const CLICK_TIMEOUT = 2000;
 
 const startBrowser = async () => {
@@ -57,7 +58,7 @@ const getDashboardController = async (req, res) => {
 
     const { browser, page } = await startBrowser();
 
-    await page.goto('https://huddle3.monday.com/auth/login_monday/email_password');
+    await page.goto(LOGIN_URL);
     await login(page, username, password);
     await page.goto(dashboardUrl);
     const filename = await getDashboard(page);
