@@ -10,60 +10,54 @@ const TV_MODE_SELECTOR = '#first-level-content > div.dialog-node > div > div > d
 const LOGIN_URL = 'https://huddle3.monday.com/auth/login_monday/email_password';
 const CLICK_TIMEOUT = 2000;
 
-const startBrowser = async () => {
-  const browser = await puppeteer.launch({
-    headless: process.env.HEADLESS === 'true',
-    defaultViewport: {
-      width: 1920,
-      height: 1080,
-    },
-  });
+const startBrowser = () => puppeteer.launch({
+  headless: process.env.HEADLESS === 'true',
+  defaultViewport: {
+    width: 1920,
+    height: 1080,
+  },
+});
+
+const getDashboard = async (browser, username, password, dashboardUrl) => {
   const page = await browser.newPage();
-
-  return { browser, page };
-};
-
-const closeBrowser = (browser) => browser.close();
-
-const login = async (page, username, password) => {
+  await page.goto(LOGIN_URL);
   await page.click(USERNAME_SELECTOR);
   await page.keyboard.type(username);
   await page.click(PASSWORD_SELECTOR);
   await page.keyboard.type(password);
   await page.click(SUBMIT_SELECTOR);
   await page.waitForNavigation();
-};
-
-const getDashboard = async (page) => {
+  await page.goto(dashboardUrl);
   await page.waitForSelector(MENU_SELECTOR);
   await page.click(MENU_SELECTOR);
   await page.waitForTimeout(CLICK_TIMEOUT);
   await page.click(TV_MODE_SELECTOR);
   await page.waitForTimeout(CLICK_TIMEOUT);
-  const html = await page.content();
+  return page.content();
+};
 
+const writeToFile = (data) => {
   const temporaryFile = tmp.fileSync({
     keep: true,
     prefix: 'monday-',
     postfix: '.html',
   });
-  fs.writeFileSync(temporaryFile.name, html);
+  fs.writeFileSync(temporaryFile.name, data);
 
   return temporaryFile.name;
 };
 
 const getDashboardController = async (req, res) => {
   try {
-    const { username, password, dashboardUrl } = req.body;
-
-    const { browser, page } = await startBrowser();
-
-    await page.goto(LOGIN_URL);
-    await login(page, username, password);
-    await page.goto(dashboardUrl);
-    const filename = await getDashboard(page);
-
-    await closeBrowser(browser);
+    const browser = await startBrowser();
+    const html = await getDashboard(
+      browser,
+      req.body.username,
+      req.body.password,
+      req.body.dashboardUrl,
+    );
+    const filename = writeToFile(html);
+    await browser.close();
 
     res.send({
       // DEPRECATED: Remove url property in the next major release
