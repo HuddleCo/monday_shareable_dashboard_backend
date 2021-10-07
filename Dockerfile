@@ -2,6 +2,7 @@ FROM alpine
 
 # Installs latest Chromium (92) package.
 RUN apk add --no-cache \
+      curl \
       chromium \
       nss \
       freetype \
@@ -36,7 +37,7 @@ COPY . .
 
 EXPOSE 8080
 
-HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
+HEALTHCHECK CMD curl --fail http://localhost:8080/health || exit 1
 
 ENV HEADLESS=true
 
