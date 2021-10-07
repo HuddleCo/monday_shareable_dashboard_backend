@@ -42,14 +42,14 @@ const getDashboard = async (page) => {
   await page.waitForTimeout(CLICK_TIMEOUT);
   const html = await page.content();
 
-  const tmpobj = tmp.fileSync({
+  const temporaryFile = tmp.fileSync({
     keep: true,
     prefix: 'monday-',
     postfix: '.html',
   });
-  fs.writeFileSync(tmpobj.name, html);
+  fs.writeFileSync(temporaryFile.name, html);
 
-  return tmpobj.name;
+  return temporaryFile.name;
 };
 
 const getDashboardController = async (req, res) => {
