@@ -51,17 +51,23 @@ const writeToFile = (data) => {
   return temporaryFile.name;
 };
 
+const downloadDashboard = async (username, password, dashboardUrl) => {
+  const browser = await startBrowser();
+  try {
+    const html = await getDashboard(browser, username, password, dashboardUrl);
+    return writeToFile(html);
+  } finally {
+    await browser.close();
+  }
+};
+
 const getDashboardController = async (req, res) => {
   try {
-    const browser = await startBrowser();
-    const html = await getDashboard(
-      browser,
+    const filename = await downloadDashboard(
       req.body.username,
       req.body.password,
       req.body.dashboardUrl,
     );
-    const filename = writeToFile(html);
-    await browser.close();
 
     res.send({
       // DEPRECATED: Remove url property in the next major release
