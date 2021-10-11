@@ -8,7 +8,7 @@ const SUBMIT_SELECTOR = '#login-monday-container > div > div.router-wrapper > di
 const MENU_SELECTOR = '#first-level-content > div > div > div.overview-header.board-header > div.overview-header-content-wrapper > div > div.overview-header-right > div > div > div.overview-menu > div > span > button';
 const TV_MODE_SELECTOR = '#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)';
 const LOGIN_URL = 'https://huddle3.monday.com/auth/login_monday/email_password';
-const CLICK_TIMEOUT_MS = 2000;
+const CLICK_TIMEOUT_MS = 3000;
 
 const startBrowser = () => puppeteer.launch({
   headless: process.env.HEADLESS === 'true',
