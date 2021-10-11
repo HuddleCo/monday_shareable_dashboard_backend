@@ -8,7 +8,7 @@ const SUBMIT_SELECTOR = '#login-monday-container > div > div.router-wrapper > di
 const MENU_SELECTOR = '#first-level-content > div > div > div.overview-header.board-header > div.overview-header-content-wrapper > div > div.overview-header-right > div > div > div.overview-menu > div > span > button';
 const TV_MODE_SELECTOR = '#first-level-content > div.dialog-node > div > div > div > div.ds-menu-inner > div:nth-child(1)';
 const LOGIN_URL = 'https://huddle3.monday.com/auth/login_monday/email_password';
-const CLICK_TIMEOUT = 2000;
+const CLICK_TIMEOUT_MS = 2000;
 
 const startBrowser = () => puppeteer.launch({
   headless: process.env.HEADLESS === 'true',
@@ -20,19 +20,23 @@ const startBrowser = () => puppeteer.launch({
 
 const getDashboard = async (browser, username, password, dashboardUrl) => {
   const page = await browser.newPage();
-  await page.goto(LOGIN_URL);
-  await page.click(USERNAME_SELECTOR);
-  await page.keyboard.type(username);
-  await page.click(PASSWORD_SELECTOR);
-  await page.keyboard.type(password);
-  await page.click(SUBMIT_SELECTOR);
-  await page.waitForNavigation();
-  await page.goto(dashboardUrl);
-  await page.waitForSelector(MENU_SELECTOR);
-  await page.click(MENU_SELECTOR);
-  await page.waitForTimeout(CLICK_TIMEOUT);
-  await page.click(TV_MODE_SELECTOR);
-  await page.waitForTimeout(CLICK_TIMEOUT);
+  try {
+    await page.goto(LOGIN_URL);
+    await page.click(USERNAME_SELECTOR);
+    await page.keyboard.type(username);
+    await page.click(PASSWORD_SELECTOR);
+    await page.keyboard.type(password);
+    await page.click(SUBMIT_SELECTOR);
+    await page.waitForNavigation();
+    await page.goto(dashboardUrl);
+    await page.waitForSelector(MENU_SELECTOR);
+    await page.click(MENU_SELECTOR);
+    await page.waitForTimeout(CLICK_TIMEOUT_MS);
+    await page.click(TV_MODE_SELECTOR);
+    await page.waitForTimeout(CLICK_TIMEOUT_MS);
+  } catch (e) {
+    // Do nothing
+  }
   return page.content();
 };
 
