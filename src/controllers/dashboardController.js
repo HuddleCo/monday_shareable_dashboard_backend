@@ -20,23 +20,19 @@ const startBrowser = () => puppeteer.launch({
 
 const getDashboard = async (browser, username, password, dashboardUrl) => {
   const page = await browser.newPage();
-  try {
-    await page.goto(LOGIN_URL);
-    await page.click(USERNAME_SELECTOR);
-    await page.keyboard.type(username);
-    await page.click(PASSWORD_SELECTOR);
-    await page.keyboard.type(password);
-    await page.click(SUBMIT_SELECTOR);
-    await page.waitForNavigation();
-    await page.goto(dashboardUrl);
-    await page.waitForSelector(MENU_SELECTOR);
-    await page.click(MENU_SELECTOR);
-    await page.waitForTimeout(CLICK_TIMEOUT_MS);
-    await page.click(TV_MODE_SELECTOR);
-    await page.waitForTimeout(CLICK_TIMEOUT_MS);
-  } catch (e) {
-    // Do nothing
-  }
+  await page.goto(LOGIN_URL);
+  await page.click(USERNAME_SELECTOR);
+  await page.keyboard.type(username);
+  await page.click(PASSWORD_SELECTOR);
+  await page.keyboard.type(password);
+  await page.click(SUBMIT_SELECTOR);
+  await page.waitForNavigation();
+  await page.goto(dashboardUrl);
+  await page.waitForSelector(MENU_SELECTOR);
+  await page.click(MENU_SELECTOR);
+  await page.waitForTimeout(CLICK_TIMEOUT_MS);
+  await page.click(TV_MODE_SELECTOR);
+  await page.waitForTimeout(CLICK_TIMEOUT_MS);
   return page.content();
 };
 
