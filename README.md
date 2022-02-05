@@ -9,7 +9,7 @@ Use command `npm start` to run the app in development.
 
 ### Building Docker image
 
-Build the docker image [aussidavid/moday_shareable_dashboard_frontend](https://hub.docker.com/r/aussidavid/monday_shareable_dashboard_frontend) to host the app as a static website.
+Build the docker image [aussidavid/moday_shareable_dashboard_backend](https://hub.docker.com/r/aussidavid/monday_shareable_dashboard_backend) to host the app as a static website.
 
 ```bash
 $ docker-compose build
