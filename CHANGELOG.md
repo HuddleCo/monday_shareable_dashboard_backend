@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/harshkhare3/monday_shareable_dashboard_backend/compare/v1.2.0...v1.1.1) (2022-02-05)
+
 ## 1.1.0 (2021-12-02)
 
 
