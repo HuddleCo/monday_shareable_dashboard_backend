@@ -8,6 +8,8 @@ services:
       resources:
         limits:
           memory: 100M
+    cap_add:
+      - SYS_ADMIN
 
 networks:
   proxy:
