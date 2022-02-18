@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  app:
+    image: aussidavid/monday_shareable_dashboard_backend
+    networks:
+      - proxy
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+    cap_add:
+      - SYS_ADMIN
+
+networks:
+  proxy:
+    external: true
+    name: NPM_default
